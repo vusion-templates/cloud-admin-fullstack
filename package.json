@@ -1,0 +1,29 @@
+{
+  "name": "cloud-admin-fullstack",
+  "version": "0.0.1",
+  "description": "cloud-admin fullstack",
+  "main": "",
+  "scripts": {
+    "postinstall": "npm run client:init && npm run server:init",
+    "client:init": "cd client && npm install",
+    "client:dev": "cd client && npm run dev",
+    "client:build": "cd client && npm run build && node ./bin/publish",
+    "client": "cd server && npm run",
+    "server:init": "cd server && npm install",
+    "server:dev": "cd server && npm run dev",
+    "server:start": "cd server && npm run stop && npm run start",
+    "server:stop": "cd server && npm run stop",
+    "server": "cd server && npm run"
+  },
+  "keywords": [
+    "cloud-admin",
+    "fullstack"
+  ],
+  "author": "zhangsanshi5566@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "fs-extra": "^9.0.0",
+    "glob": "^7.1.6",
+    "vusion-api": "^0.6.12"
+  }
+}

@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+const fs = require('fs-extra');
+const path = require('path');
+const pkg = require('../package.json');
+const upload = require('./upload');
+const server = path.join(__dirname, '../server');
+const client = path.join(__dirname, '../client');
+const serverPublic = path.join(server, './app/public');
+const clientBuild = path.join(client, './dist');
+const clientPublic = path.join(clientBuild, './public');
+const serverView = path.join(server, './app/view');
+fs.ensureDirSync(serverPublic);
+fs.ensureDirSync(serverView);
+fs.ensureDirSync(clientPublic);
+if (process.env.isMicro) {
+    upload(clientPublic, path.join(pkg.name, 'public'));
+} else {
+    fs.copySync(clientPublic, path.join(serverPublic, 'public'));
+    fs.removeSync(clientPublic);
+    fs.copySync(clientBuild, serverView);
+    fs.removeSync(clientBuild);
+}
