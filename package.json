@@ -7,7 +7,7 @@
     "postinstall": "npm run client:init && npm run server:init",
     "client:init": "cd client && npm install",
     "client:dev": "cd client && npm run dev",
-    "client:build": "cd client && npm run build && node ./bin/publish",
+    "client:build": "cd client && npm run build && node ../bin/publish",
     "client": "cd server && npm run",
     "server:init": "cd server && npm install",
     "server:dev": "cd server && npm run dev",

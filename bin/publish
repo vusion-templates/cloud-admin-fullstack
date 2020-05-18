@@ -13,10 +13,10 @@ const serverView = path.join(server, './app/view');
 fs.ensureDirSync(serverPublic);
 fs.ensureDirSync(serverView);
 fs.ensureDirSync(clientPublic);
-if (process.env.isMicro) {
+if (process.env.MICRO_APP) {
     upload(clientPublic, path.join(pkg.name, 'public'));
 } else {
-    fs.copySync(clientPublic, path.join(serverPublic, 'public'));
+    fs.copySync(clientPublic, path.join(serverPublic));
     fs.removeSync(clientPublic);
     fs.copySync(clientBuild, serverView);
     fs.removeSync(clientBuild);

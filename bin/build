@@ -3,7 +3,6 @@
 /**
  * Install npm packages
  */
-require('./micro');
 const spawnSync = require('child_process').spawnSync;
 function printStart(str) {
     console.log();
@@ -22,13 +21,13 @@ function printInfo(str) {
 }
 
 {
-    printStart('npm run client:init');
-    const result = spawnSync('npm', ['run','client:init'], {
+    printStart('npm install');
+    const result = spawnSync('npm', ['install'], {
         stdio: 'inherit',
     });
     if (result.status)
         throw new Error(String(result.stderr));
-    printEnd('npm run client:init');
+    printEnd('npm install');
 }
 
 {
@@ -49,13 +48,4 @@ function printInfo(str) {
     if (result.status)
         throw new Error(String(result.stderr));
     printEnd('rm -rf client');
-}
-if (!process.env.isMicro) {
-    printStart('npm run server:init');
-    const result = spawnSync('npm', ['run','server:init'], {
-        stdio: 'inherit',
-    });
-    if (result.status)
-        throw new Error(String(result.stderr));
-    printEnd('npm run server:init');
 }
