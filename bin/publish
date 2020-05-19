@@ -2,8 +2,6 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const pkg = require('../package.json');
-const upload = require('./upload');
 const server = path.join(__dirname, '../server');
 const client = path.join(__dirname, '../client');
 const serverPublic = path.join(server, './app/public');
@@ -13,11 +11,14 @@ const serverView = path.join(server, './app/view');
 fs.ensureDirSync(serverPublic);
 fs.ensureDirSync(serverView);
 fs.ensureDirSync(clientPublic);
-if (process.env.MICRO_APP) {
-    upload(clientPublic, path.join(pkg.name, 'public'));
-} else {
-    fs.copySync(clientPublic, path.join(serverPublic));
-    fs.removeSync(clientPublic);
-    fs.copySync(clientBuild, serverView);
-    fs.removeSync(clientBuild);
-}
+fs.copySync(clientPublic, path.join(serverPublic));
+fs.copySync(clientBuild, serverView, {
+    filter(file){
+        const filePath = path.relative(clientBuild, file).trim();
+        if (filePath.startsWith('public/') || filePath === 'public') {
+            return false;
+        }
+        return true;
+    },
+});
+

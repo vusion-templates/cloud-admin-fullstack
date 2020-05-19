@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const fs = require('fs-extra');
+const path = require('path');
+const pkg = require('../package.json');
+const upload = require('./upload');
+const client = path.join(__dirname, '../client');
+const clientBuild = path.join(client, './dist');
+const clientPublic = path.join(clientBuild, './public');
+
+fs.ensureDirSync(clientPublic);
+
+upload(clientPublic, path.join(pkg.name, 'public'));

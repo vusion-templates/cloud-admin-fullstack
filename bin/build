@@ -4,6 +4,7 @@
  * Install npm packages
  */
 const spawnSync = require('child_process').spawnSync;
+const path = require('path');
 function printStart(str) {
     console.log();
     console.log(`*****************| ${str} start |*******************`);
@@ -24,6 +25,7 @@ function printInfo(str) {
     printStart('npm install');
     const result = spawnSync('npm', ['install'], {
         stdio: 'inherit',
+        cwd: path.join(__dirname, '..')
     });
     if (result.status)
         throw new Error(String(result.stderr));
@@ -31,9 +33,21 @@ function printInfo(str) {
 }
 
 {
+    printStart('npm run client:init');
+    const result = spawnSync('npm', ['run', 'client:init'], {
+        stdio: 'inherit',
+        cwd: path.join(__dirname, '..')
+    });
+    if (result.status)
+        throw new Error(String(result.stderr));
+    printEnd('npm run client:init');
+}
+
+{
     printStart('npm run client:build');
     const result = spawnSync('npm', ['run','client:build'], {
         stdio: 'inherit',
+        cwd: path.join(__dirname, '..')
     });
     if (result.status)
         throw new Error(String(result.stderr));
@@ -41,11 +55,12 @@ function printInfo(str) {
 }
 
 {
-    printStart('rm -rf client');
-    const result = spawnSync('rm', ['-rf', 'client'], {
+    printStart('npm run server:init');
+    const result = spawnSync('npm', ['run', 'server:init'], {
         stdio: 'inherit',
+        cwd: path.join(__dirname, '..')
     });
     if (result.status)
         throw new Error(String(result.stderr));
-    printEnd('rm -rf client');
+    printEnd('npm run server:init');
 }
