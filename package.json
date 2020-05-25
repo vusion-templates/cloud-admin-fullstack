@@ -14,7 +14,9 @@
     "server:dev": "cd server && npm run dev",
     "server:start": "cd server && npm run stop && npm run start",
     "server:stop": "cd server && npm run stop",
-    "server": "cd server && npm run"
+    "server": "cd server && npm run",
+    "prepublishOnly": "cp .gitignore _.gitignore && cp ./server/.gitignore ./server/_.gitignore",
+    "postpublish": "rm _.gitignore && rm ./server/_.gitignore"
   },
   "keywords": [
     "cloud-admin",

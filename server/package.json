@@ -35,9 +35,6 @@
     "ci": "npm run lint && npm run cov",
     "autod": "autod"
   },
-  "ci": {
-    "version": "10"
-  },
   "repository": {
     "type": "git",
     "url": ""
