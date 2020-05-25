@@ -8,6 +8,7 @@
     "client:init": "cd client && npm install",
     "client:dev": "cd client && npm run dev",
     "client:build": "cd client && npm run build && node ../bin/publish",
+    "client:build:micro": "cd client && npm run build:micro",
     "client": "cd server && npm run",
     "server:init": "cd server && npm install",
     "server:dev": "cd server && npm run dev",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
-    "vusion-api": "^0.6.12"
+    "shelljs": "^0.8.4",
+    "vusion-api": "^0.6.15"
   }
 }

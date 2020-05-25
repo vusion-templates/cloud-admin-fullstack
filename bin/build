@@ -5,21 +5,8 @@
  */
 const spawnSync = require('child_process').spawnSync;
 const path = require('path');
-function printStart(str) {
-    console.log();
-    console.log(`*****************| ${str} start |*******************`);
-    console.log();
-}
-function printEnd(str) {
-    console.log();
-    console.log(`*****************| ${str} end |*******************`);
-    console.log();
-}
-function printInfo(str) {
-    console.log();
-    console.log(str);
-    console.log();
-}
+const { getMicroPrefix } = require('./util/config');
+const { printStart, printEnd, printInfo } = require('./util/log');
 
 {
     printStart('npm install');
@@ -43,24 +30,44 @@ function printInfo(str) {
     printEnd('npm run client:init');
 }
 
-{
-    printStart('npm run client:build');
-    const result = spawnSync('npm', ['run','client:build'], {
-        stdio: 'inherit',
-        cwd: path.join(__dirname, '..')
-    });
-    if (result.status)
-        throw new Error(String(result.stderr));
-    printEnd('npm run client:build');
+if (process.env.PARAM_APP_TYPE === 'MICROAPP') {
+    process.env.MICRO_APP = true;
+    process.env.PublicPath = `https://static-vusion.nos-eastchina1.126.net/micro/${getMicroPrefix()}`;
+
+    {
+        printStart('npm run client:build:micro');
+        const result = spawnSync('npm', ['run','client:build:micro'], {
+            stdio: 'inherit',
+            cwd: path.join(__dirname, '..')
+        });
+        if (result.status)
+            throw new Error(String(result.stderr));
+        printEnd('npm run client:build:micro');
+    }
+
+} else {
+
+    {
+        printStart('npm run client:build');
+        const result = spawnSync('npm', ['run','client:build'], {
+            stdio: 'inherit',
+            cwd: path.join(__dirname, '..')
+        });
+        if (result.status)
+            throw new Error(String(result.stderr));
+        printEnd('npm run client:build');
+    }
+    
+    {
+        printStart('npm run server:init');
+        const result = spawnSync('npm', ['run', 'server:init'], {
+            stdio: 'inherit',
+            cwd: path.join(__dirname, '..')
+        });
+        if (result.status)
+            throw new Error(String(result.stderr));
+        printEnd('npm run server:init');
+    }
+    
 }
 
-{
-    printStart('npm run server:init');
-    const result = spawnSync('npm', ['run', 'server:init'], {
-        stdio: 'inherit',
-        cwd: path.join(__dirname, '..')
-    });
-    if (result.status)
-        throw new Error(String(result.stderr));
-    printEnd('npm run server:init');
-}

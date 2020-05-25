@@ -8,9 +8,11 @@ const serverPublic = path.join(server, './app/public');
 const clientBuild = path.join(client, './dist');
 const clientPublic = path.join(clientBuild, './public');
 const serverView = path.join(server, './app/view');
+
 fs.ensureDirSync(serverPublic);
 fs.ensureDirSync(serverView);
 fs.ensureDirSync(clientPublic);
+
 fs.copySync(clientPublic, path.join(serverPublic));
 fs.copySync(clientBuild, serverView, {
     filter(file){
