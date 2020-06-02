@@ -6,17 +6,17 @@
 const spawnSync = require('child_process').spawnSync;
 const path = require('path');
 const { getMicroPrefix } = require('./util/config');
-const { printStart, printEnd, printInfo } = require('./util/log');
+const { printStart, printEnd } = require('./util/log');
 
 {
-    printStart('npm install');
-    const result = spawnSync('npm', ['install'], {
+    printStart('npm run cache-install');
+    const result = spawnSync('npm', ['run', 'cache-install'], {
         stdio: 'inherit',
         cwd: path.join(__dirname, '..')
     });
     if (result.status)
         throw new Error(String(result.stderr));
-    printEnd('npm install');
+    printEnd('npm run cache-install');
 }
 
 {
@@ -48,6 +48,21 @@ if (process.env.PARAM_APP_TYPE === 'MICROAPP') {
 } else {
 
     {
+        printStart('npm run server:init');
+        exec('npm run server:init', {
+            cwd: path.join(__dirname, '..')
+        }, (err, stdout, stderr) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            console.log(stdout);
+            console.error(stderr);
+            printEnd('npm run server:init');
+        });
+    }
+
+    {
         printStart('npm run client:build');
         const result = spawnSync('npm', ['run','client:build'], {
             stdio: 'inherit',
@@ -56,17 +71,6 @@ if (process.env.PARAM_APP_TYPE === 'MICROAPP') {
         if (result.status)
             throw new Error(String(result.stderr));
         printEnd('npm run client:build');
-    }
-    
-    {
-        printStart('npm run server:init');
-        const result = spawnSync('npm', ['run', 'server:init'], {
-            stdio: 'inherit',
-            cwd: path.join(__dirname, '..')
-        });
-        if (result.status)
-            throw new Error(String(result.stderr));
-        printEnd('npm run server:init');
     }
     
 }
