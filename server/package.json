@@ -6,6 +6,10 @@
   "egg": {
     "declarations": true
   },
+  "template": {
+    "name": "cloud-admin-fullstack-server",
+    "version": "0.0.x"
+  },
   "dependencies": {
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
