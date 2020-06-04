@@ -4,6 +4,7 @@
  * Install npm packages
  */
 const spawnSync = require('child_process').spawnSync;
+const exec = require('child_process').exec;
 const path = require('path');
 const { getMicroPrefix } = require('./util/config');
 const { printStart, printEnd } = require('./util/log');
