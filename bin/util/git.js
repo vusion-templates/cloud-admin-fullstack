@@ -1,12 +1,11 @@
-const shell = require('shelljs');
+const spawnSync = require('child_process').spawnSync;
 module.exports = {
     getCommitId() {
-        try {
-            return shell.exec('git rev-parse HEAD', {
-                silent: true,
-            }).trim();
-        } catch (error) {
-            console.error(error);
+        const result = spawnSync('git', ['rev-parse', 'HEAD']);
+        if (result.status === 0) {
+            return String(result.stdout).trim();
+        } else {
+            console.error(String(result.stderr));
             throw new Error('get commitId error.');
         }
     },

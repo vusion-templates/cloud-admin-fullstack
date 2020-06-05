@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
+const Utils = require('./util');
 const server = path.join(__dirname, '../server');
 const client = path.join(__dirname, '../client');
 const serverPublic = path.join(server, './app/public');
@@ -9,18 +10,17 @@ const clientBuild = path.join(client, './dist');
 const clientPublic = path.join(clientBuild, './public');
 const serverView = path.join(server, './app/view');
 
-fs.ensureDirSync(serverPublic);
-fs.ensureDirSync(serverView);
-fs.ensureDirSync(clientPublic);
+Utils.mkdirSync(serverPublic);
+Utils.mkdirSync(serverView);
+Utils.mkdirSync(clientPublic);
 
-fs.copySync(clientPublic, path.join(serverPublic));
-fs.copySync(clientBuild, serverView, {
-    filter(file){
-        const filePath = path.relative(clientBuild, file).trim();
-        if (filePath.startsWith('public/') || filePath === 'public') {
-            return false;
-        }
-        return true;
-    },
+
+Utils.copy(clientPublic, serverPublic);
+
+Utils.copy(clientBuild, serverView, (file) => {
+    const filePath = file.trim();
+    if (filePath.startsWith('public/') || filePath === 'public') {
+        return false;
+    }
+    return true;
 });
-

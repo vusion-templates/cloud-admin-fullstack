@@ -10,17 +10,6 @@ const { getMicroPrefix } = require('./util/config');
 const { printStart, printEnd } = require('./util/log');
 
 {
-    printStart('npm run cache-install');
-    const result = spawnSync('npm', ['run', 'cache-install'], {
-        stdio: 'inherit',
-        cwd: path.join(__dirname, '..')
-    });
-    if (result.status)
-        throw new Error(String(result.stderr));
-    printEnd('npm run cache-install');
-}
-
-{
     printStart('npm run client:init');
     const result = spawnSync('npm', ['run', 'client:init'], {
         stdio: 'inherit',
