@@ -1,13 +1,19 @@
 'use strict';
-const k2c = require('koa2-connect');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function() {
   return async function(ctx, next) {
     if (ctx.request.url.startsWith('/gateway/')) {
-      await k2c(createProxyMiddleware('/gateway', {
-        target: 'http://api.gateway.lowcode',
-        changeOrigin: true,
-      }))(ctx, next);
+      await ctx.proxyRequest('api.gateway.lowcode', {
+        rewrite(urlObj) {
+          urlObj.port = '80';
+          return urlObj;
+        },
+        async beforeResponse(proxyResult) {
+          proxyResult.headers['set-cookie'].push(
+            'authorization=' + proxyResult.headers.authorization + '; Path=/; HttpOnly'
+          );
+          return proxyResult;
+        },
+      });
     } else {
       await next();
     }
