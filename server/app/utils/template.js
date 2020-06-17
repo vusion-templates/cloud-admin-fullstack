@@ -12,7 +12,7 @@ module.exports = {
           await ctx.render(file, {});
         };
         router.get(new RegExp(`^\/${name}\/(.*?)$`), pageRender);
-        router.get(new RegExp(`^\/${name}$`), pageRender);
+        router.get('/' + name, pageRender);
       });
     });
   },

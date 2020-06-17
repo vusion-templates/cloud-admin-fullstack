@@ -39,11 +39,19 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1589536024870_4828';
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = [ 'login', 'gateway' ];
 
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
+    login: {
+      // 服务地址
+      service: 'http://api.gateway.lowcode',
+      // 前端地址
+      login: '/login',
+      // 登陆失效是否直接重定向
+      redirect: true,
+    },
   };
   return {
     ...config,
