@@ -14,9 +14,9 @@
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
     "egg-view-nunjucks": "^2.2.0",
-    "@eggjs/http-proxy": "^1.1.0",
-    "egg-cookies": "^2.3.4",
-    "nuims-login": "^0.2.1"
+    "http-proxy-middleware": "^1.0.4",
+    "koa2-connect": "^1.0.2",
+    "nuims-login": "^0.2.4"
   },
   "devDependencies": {
     "autod": "^3.0.1",
