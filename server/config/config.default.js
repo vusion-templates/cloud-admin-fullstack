@@ -3,6 +3,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const authHtmlNames = require('./auth.json');
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -40,17 +41,31 @@ module.exports = appInfo => {
 
   // add your middleware config here
   config.middleware = [ 'login', 'gateway' ];
+  let hasLogin = false;
 
+  const blockPath = (() => {
+    const protectedHtmlNames = [ 'login', 'noAuth' ];
+    const htmlPath = [];
+    const files = fs.readdirSync(path.join(__dirname, '../app/view'));
+    hasLogin = !!files.find(i => i === 'login.html');
+    authHtmlNames.filter(authHtmlName => !protectedHtmlNames.includes(authHtmlName)).forEach(authHtmlName => {
+      htmlPath.push('/' + authHtmlName);
+      htmlPath.push('/' + authHtmlName + '/(.*)');
+    });
+    return htmlPath;
+  })();
   // add your user config here
+
   const userConfig = {
     // myAppName: 'egg',
     login: {
       // 服务地址
       service: 'http://api.gateway.lowcode',
       // 前端地址
-      login: '/login',
+      login: hasLogin ? '/login' : undefined,
       // 登陆失效是否直接重定向
       redirect: true,
+      blockPath,
     },
   };
   return {
