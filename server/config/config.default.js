@@ -43,7 +43,7 @@ module.exports = appInfo => {
   config.middleware = [ 'login', 'gateway' ];
   let hasLogin = false;
 
-  const blockPath = (() => {
+  const blockList = (() => {
     const protectedHtmlNames = [ 'login', 'noAuth' ];
     const htmlPath = [];
     const files = fs.readdirSync(path.join(__dirname, '../app/view'));
@@ -59,13 +59,10 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
     login: {
-      // 服务地址
-      service: 'http://api.gateway.lowcode',
-      // 前端地址
       login: hasLogin ? '/login' : undefined,
-      // 登陆失效是否直接重定向
-      redirect: true,
-      blockPath,
+      blockList,
+      noPermission: '/noAuth',
+      DomainName: require('../package.json').name.replace(/-server$/, ''),
     },
   };
   return {
