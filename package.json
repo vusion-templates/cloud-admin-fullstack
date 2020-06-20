@@ -1,6 +1,6 @@
 {
   "name": "cloud-admin-fullstack",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "cloud-admin fullstack",
   "main": "",
   "scripts": {
@@ -26,6 +26,6 @@
   "license": "MIT",
   "template": {
     "name": "cloud-admin-fullstack",
-    "version": "0.1.x"
+    "version": "0.2.x"
   }
 }
