@@ -55,14 +55,17 @@ module.exports = appInfo => {
     return htmlPath;
   })();
   // add your user config here
-
+  const DomainName = require('../package.json').name.replace(/-server$/, '');
   const userConfig = {
     // myAppName: 'egg',
     login: {
       login: hasLogin ? '/login' : undefined,
       blockList,
       noPermission: '/noAuth',
-      DomainName: require('../package.json').name.replace(/-server$/, ''),
+      DomainName,
+    },
+    gateway: {
+      DomainName,
     },
   };
   return {

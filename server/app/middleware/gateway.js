@@ -1,7 +1,8 @@
 'use strict';
 const k2c = require('koa2-connect');
 const { createProxyMiddleware } = require('http-proxy-middleware');
-module.exports = function() {
+module.exports = function(options) {
+  const DomainName = options;
   return async function(ctx, next) {
     if (ctx.request.url.startsWith('/gateway/')) {
       const authorization = ctx.cookies.get('authorization', {
@@ -16,8 +17,9 @@ module.exports = function() {
         onProxyReq(proxyReq) {
           proxyReq.removeHeader('x-forwarded-port');
           proxyReq.removeHeader('x-forwarded-host'); // api gateway will read it
-          authorization && proxyReq.setHeader('AccessToken', authorization);
+          authorization && proxyReq.setHeader('authorization', authorization);
           userName && proxyReq.setHeader('UserName', userName);
+          proxyReq.setHeader('DomainName', DomainName);
           proxyReq.setHeader('content-type', 'application/json');
           if (ctx.method === 'POST' || ctx.method === 'PUT') {
             const { rawBody, body: requestBody } = ctx.request;
