@@ -2,13 +2,10 @@
 const k2c = require('koa2-connect');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function(options) {
-  const DomainName = options;
+  const DomainName = options.DomainName;
   return async function(ctx, next) {
     if (ctx.request.url.startsWith('/gateway/')) {
       const authorization = ctx.cookies.get('authorization', {
-        signed: false,
-      });
-      const userName = ctx.cookies.get('userName', {
         signed: false,
       });
       await k2c(createProxyMiddleware('/gateway', {
@@ -18,7 +15,6 @@ module.exports = function(options) {
           proxyReq.removeHeader('x-forwarded-port');
           proxyReq.removeHeader('x-forwarded-host'); // api gateway will read it
           authorization && proxyReq.setHeader('authorization', authorization);
-          userName && proxyReq.setHeader('UserName', userName);
           proxyReq.setHeader('DomainName', DomainName);
           proxyReq.setHeader('content-type', 'application/json');
           if (ctx.method === 'POST' || ctx.method === 'PUT') {
