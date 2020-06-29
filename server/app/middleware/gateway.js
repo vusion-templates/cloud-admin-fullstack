@@ -8,6 +8,9 @@ module.exports = function(options) {
       const authorization = ctx.cookies.get('authorization', {
         signed: false,
       });
+      const userName = ctx.cookies.get('userName', {
+        signed: false,
+      });
       await k2c(createProxyMiddleware('/gateway', {
         target: 'http://api.gateway.lowcode',
         changeOrigin: true,
@@ -15,6 +18,7 @@ module.exports = function(options) {
           proxyReq.removeHeader('x-forwarded-port');
           proxyReq.removeHeader('x-forwarded-host'); // api gateway will read it
           authorization && proxyReq.setHeader('authorization', authorization);
+          userName && proxyReq.setHeader('UserName', userName);
           proxyReq.setHeader('DomainName', DomainName);
           proxyReq.setHeader('content-type', 'application/json');
           if (ctx.method === 'POST' || ctx.method === 'PUT') {
