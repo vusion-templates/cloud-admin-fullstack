@@ -62,7 +62,7 @@ module.exports = appInfo => {
       login: hasLogin ? '/login' : undefined,
       blockList,
       noPermission: '/noAuth',
-      DomainName,
+      domainName: DomainName,
     },
     gateway: {
       DomainName,
