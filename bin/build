@@ -41,10 +41,21 @@ if (process.env.PARAM_APP_TYPE === 'MICROAPP') {
     {
         try {
             const pages = JSON.parse(fs.readFileSync(path.join(__dirname, '../client/pages.json')).toString());
-            const authPages = Object.keys(pages).filter((key) => pages[key].options && pages[key].options.auth);
+            const authPages = [];
+            Object.keys(pages).forEach((key) => {
+                const options = pages[key].options;
+                const isAuth = options && options.auth;
+                if (isAuth) {
+                    authPages.push(key);
+                    if (options.isIndex && !pages.index) {
+                        authPages.push('index');
+                    }
+                }
+                
+            });
             fs.writeFileSync(path.join(__dirname, '../server/config/auth.json'), JSON.stringify(authPages));
         } catch (error) {
-            console.error('权限写入错误');
+            console.error('权限写入错误', error);
             process.exit(1);
         }
     }
