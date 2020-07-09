@@ -12,6 +12,9 @@ module.exports = app => {
       await ctx.render(file, {});
     };
     router.get('/' + name, pageRender);
+    if (name === 'index') {
+      router.get('/', pageRender);
+    }
     if (file.endsWith('.html')) {
       router.get(new RegExp(`^\/${name}\/(.*?)$`), pageRender);
     }
