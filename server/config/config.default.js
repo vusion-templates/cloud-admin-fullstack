@@ -56,6 +56,7 @@ module.exports = appInfo => {
   })();
   // add your user config here
   const DomainName = require('../package.json').name.replace(/-server$/, '');
+  const platformConfig = require('./platform.config.json');
   const userConfig = {
     // myAppName: 'egg',
     login: {
@@ -66,6 +67,8 @@ module.exports = appInfo => {
     },
     gateway: {
       DomainName,
+      PROJECT_ID: platformConfig.projectId,
+      TENANT_ID: platformConfig.tenantId,
     },
   };
   return {
