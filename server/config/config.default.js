@@ -44,7 +44,7 @@ module.exports = appInfo => {
   let hasLogin = false;
 
   const blockList = (() => {
-    const protectedHtmlNames = [ 'login', 'noAuth' ];
+    const protectedHtmlNames = [ 'login', 'noAuth', '404', '403', '500' ];
     const htmlPath = [];
     const files = fs.readdirSync(path.join(__dirname, '../app/view'));
     hasLogin = !!files.find(i => i === 'login.html');
