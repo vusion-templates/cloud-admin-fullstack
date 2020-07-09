@@ -35,7 +35,7 @@ module.exports = function(options) {
   }));
 
   const proxyGW = k2c(createProxyMiddleware('/gw', {
-    target: `http://${TENANT_ID}-${PROJECT_ID}api.gateway.lowcode`,
+    target: `http://${TENANT_ID}-${PROJECT_ID}.gateway.lowcode`,
     changeOrigin: true,
     onProxyReq,
   }));
