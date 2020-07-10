@@ -13,7 +13,7 @@ module.exports = app => {
     };
     router.get('/' + name, pageRender);
     if (name === 'index') {
-      router.get('/', pageRender);
+      router.redirect('/', 'index', 302);
     }
     if (file.endsWith('.html')) {
       router.get(new RegExp(`^\/${name}\/(.*?)$`), pageRender);
