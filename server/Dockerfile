@@ -1,5 +1,4 @@
-FROM node:12.16.3
-MAINTAINER BILL "base_cloud@corp.netease.com"
+FROM harbor.lcp.service.163.org/library/bff-image:develop-latest
 
 RUN mkdir -p /home/project
 COPY ./server /home/project
