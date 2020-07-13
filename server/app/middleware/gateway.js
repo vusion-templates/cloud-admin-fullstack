@@ -20,7 +20,8 @@ module.exports = function(options) {
       userName && proxyReq.setHeader('UserName', userName);
       proxyReq.setHeader('DomainName', DomainName);
       proxyReq.setHeader('content-type', 'application/json');
-      if (ctx.method === 'POST' || ctx.method === 'PUT') {
+
+      if ([ 'POST', 'PUT', 'DELETE', 'PATCH' ].includes(ctx.method)) {
         const { rawBody, body: requestBody } = ctx.request;
         if (requestBody && rawBody) {
           proxyReq.removeHeader('content-length');
