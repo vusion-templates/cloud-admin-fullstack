@@ -70,8 +70,7 @@ module.exports = appInfo => {
     },
     gateway: {
       DomainName,
-      PROJECT_ID: platformConfig.projectId,
-      TENANT_ID: platformConfig.tenantId,
+      TENANT: platformConfig.tenant,
     },
   };
   return {

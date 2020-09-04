@@ -3,8 +3,7 @@ const k2c = require('koa2-connect');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = function(options) {
   const DomainName = options.DomainName;
-  const PROJECT_ID = options.PROJECT_ID;
-  const TENANT_ID = options.TENANT_ID;
+  const TENANT = options.TENANT;
 
   return async function(ctx, next) {
     const authorization = ctx.cookies.get('authorization', {
@@ -39,7 +38,7 @@ module.exports = function(options) {
       }))(ctx, next);
     } else if (ctx.request.url.startsWith('/gw/')) {
       await k2c(createProxyMiddleware('/gw', {
-        target: `http://${TENANT_ID}-${PROJECT_ID}.gateway.lowcode`,
+        target: `http://${TENANT}.gateway.lowcode`,
         changeOrigin: true,
         onProxyReq,
       }))(ctx, next);
